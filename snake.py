@@ -7,13 +7,15 @@ from random import randint
 import pygame as pg
 
 pg.init()
-screen = pg.display.set_mode((400, 300))
+screen = pg.display.set_mode((600, 600))
 clock = pg.time.Clock()
 
 # on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
 running = True
 while running:
 
+    screen_color = (255, 255, 255)
+    screen.fill(screen_color)
     clock.tick(1)
 
     # on itère sur tous les évênements qui ont eu lieu depuis le précédent appel
@@ -32,8 +34,40 @@ while running:
     # xxx ici c'est discutable, car si on tape 'q'
     # on va quand même changer de couleur avant de sortir...
 
-    random_color = (randint(0, 255), randint(0, 255), randint(0, 255))
-    screen.fill(random_color)
+    # les coordonnées de rectangle que l'on dessine
+    width = 20 # largeur du rectangle en pixels
+    height = 20 # hauteur du rectangle en pixels
+    black = (0, 0, 0) # couleur noire
+    green = (0, 255, 0) #couleur verte
+
+    for i in range(15):
+        for j in range(15):
+            x = (2*i+1)*width
+            y = 2*j*height
+
+            rect = pg.Rect(x, y, width, height)
+            pg.draw.rect(screen, black, rect)
+
+    for i in range(15):
+        for j in range(15):
+            x = 2*i*width
+            y = (2*j+1)*height
+
+            rect = pg.Rect(x, y, width, height)
+            pg.draw.rect(screen, black, rect)
+
+
+    # appel à la méthode draw.rect()
+    snake = [
+    (10, 15),
+    (11, 15),
+    (12, 15),]
+
+    for point in snake:
+        x, y = width*point[0], height*point[1]
+        rect_snake = pg.Rect(x, y, width, height)
+        pg.draw.rect(screen, green, rect_snake)
+
     pg.display.update()
 
 
