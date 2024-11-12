@@ -23,7 +23,7 @@ def draw_fruit(fruit):
     rect_fruit = pg.Rect(xf, yf, WIDTH, HEIGHT)
     pg.draw.rect(screen, RED, rect_fruit)
 
-def eat_snake(snake, count):
+def eat_snake(snake, count, queue):
     count += 1
     snake.insert(0, queue)
 
@@ -95,7 +95,7 @@ if __name__ == "__main__":
         draw_fruit(fruit)
 
         if snake[-1]==fruit:
-            eat_snake(snake, count)
+            eat_snake(snake, count, queue)
             fruit = (randint(0, 29), randint(0, 29))
 
         if snake[-1] in snake[:-1] or -1 in snake[-1] or 30 in snake[-1]:
