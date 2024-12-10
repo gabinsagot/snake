@@ -1,10 +1,11 @@
 from random import randint
+from collections import deque
 import pygame as pg
 
 WIDTH = 20 # largeur du rectangle en pixels
 HEIGHT = 20 # hauteur du rectangle en pixels
-BLACK = (0, 0, 0) # couleur noire
-GREEN = (0, 255, 0) #couleur verte
+BORDEAUX = (60, 25, 25) # couleur noire
+GREEN = (0, 150, 0) #couleur verte
 RED = (255, 0, 0)
 SCREEN_SIZE = (600, 600)
 
@@ -33,9 +34,9 @@ if __name__ == "__main__":
     pg.init()
 
     # on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
-    snake = [(10, 15),
+    snake = deque([(10, 15),
             (11, 15),
-            (12, 15)]
+            (12, 15)])
     direction = (1, 0)
     fruit = (10, 10)
     running = True
@@ -44,7 +45,7 @@ if __name__ == "__main__":
         
         screen_color = (255, 255, 255)
         screen.fill(screen_color)
-        clock.tick(6)
+        clock.tick(10)
 
         # on itère sur tous les évênements qui ont eu lieu depuis le précédent appel
         # ici donc tous les évènements survenus durant la seconde précédente
@@ -79,7 +80,7 @@ if __name__ == "__main__":
                 y = 2*j*HEIGHT
 
                 rect = pg.Rect(x, y, WIDTH, HEIGHT)
-                pg.draw.rect(screen, BLACK, rect)
+                pg.draw.rect(screen, BORDEAUX, rect)
 
         for i in range(15):
             for j in range(15):
@@ -87,10 +88,10 @@ if __name__ == "__main__":
                 y = (2*j+1)*HEIGHT
 
                 rect = pg.Rect(x, y, WIDTH, HEIGHT)
-                pg.draw.rect(screen, BLACK, rect)
+                pg.draw.rect(screen, BORDEAUX, rect)
 
         snake.append(tuple(a + b for a,b in zip(snake[-1], direction)))
-        queue = snake.pop(0)
+        queue = snake.popleft()
             
         draw_fruit(fruit)
 
@@ -98,9 +99,11 @@ if __name__ == "__main__":
             eat_snake(snake, count, queue)
             fruit = (randint(0, 29), randint(0, 29))
 
-        if snake[-1] in snake[:-1] or -1 in snake[-1] or 30 in snake[-1]:
+        
+        if snake[-1] in list(snake)[:-1] or -1 in snake[-1] or 30 in snake[-1]:
             print(count)
             running = False
+        
 
         draw_snake(snake)
 
